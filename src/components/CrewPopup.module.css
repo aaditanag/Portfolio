@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.popup {
+  background: rgba(10, 12, 24, 0.92);
+  border: 1px solid rgba(0, 200, 200, 0.4);
+  border-radius: 14px;
+  padding: 1.1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow:
+    0 0 30px rgba(0, 200, 200, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  pointer-events: auto;
+  max-width: 90vw;
+  min-width: 280px;
+}
+
+.icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  animation: wobble 1.2s ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.headline {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 8px var(--teal-glow);
+}
+
+.subline {
+  font-family: var(--font-pixel);
+  font-size: 0.35rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.08em;
+}
+
+.bar {
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  margin-top: 0.4rem;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--yellow));
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--teal-glow);
+  transition: width 0.8s ease;
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-pixel);
+  font-size: 0.3rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.2rem;
+  letter-spacing: 0.06em;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+  min-height: unset;
+  min-width: unset;
+  line-height: 1;
+}
+
+.closeBtn:hover { color: rgba(255,255,255,0.7); }
+
+.popupWrap {
+  position: relative;
+}

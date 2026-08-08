@@ -114,6 +114,7 @@ AVAILABLE COMMANDS:
   contact   → Hire me, socials, email
   home      → Return to arena map
   clear     → Clear this terminal
+  crew      → Live crew manifest (visitors)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
   🥚 Try: emergency · sus · vent · impostor
 `.trim();
@@ -216,6 +217,27 @@ export default function Terminal() {
         }, 600);
         return;
       }
+    }
+
+    if (cmd === 'crew') {
+      addLines(mkLine('system', '📡 Scanning crew manifest...'));
+      fetch('/api/visitors')
+        .then(r => r.json())
+        .then(({ count }) => {
+          addLines(
+            mkLine('success', `🚀 CREW MANIFEST · SKELD SHIP`),
+            mkLine('output',  `━━━━━━━━━━━━━━━━━━━━━━━━━━━`),
+            mkLine('output',  `  Total crewmates boarded : ${count}`),
+            mkLine('output',  `  Impostors (probably)    : 1`),
+            mkLine('output',  `  Ship capacity           : ∞`),
+            mkLine('output',  `━━━━━━━━━━━━━━━━━━━━━━━━━━━`),
+            mkLine('success', `  Welcome aboard, crewmate! 👾`),
+          );
+        })
+        .catch(() => {
+          addLines(mkLine('error', 'Crew manifest unavailable. Check ship systems.'));
+        });
+      return;
     }
 
     // Fuzzy match

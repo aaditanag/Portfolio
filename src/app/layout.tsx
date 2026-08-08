@@ -5,6 +5,7 @@ import Buzzer from "@/components/Buzzer";
 import Terminal from "@/components/Terminal";
 import Navbar from "@/components/Navbar";
 import CursorSparkle from "@/components/CursorSparkle";
+import CrewPopup from "@/components/CrewPopup";
 
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
           <Buzzer />
           <Terminal />
           <CursorSparkle />
+          <CrewPopup />
 
         </TerminalProvider>
       </body>
