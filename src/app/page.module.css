@@ -96,6 +96,7 @@
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06);
   width: fit-content;
+  flex-wrap: wrap;
 }
 
 .stat {
@@ -115,12 +116,23 @@
   font-size: 0.65rem;
   color: rgba(255,255,255,0.4);
   text-align: center;
+  white-space: nowrap;
 }
 
 .statDivider {
   width: 1px;
   height: 30px;
   background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .stats {
+    gap: 0.8rem;
+    padding: 0.9rem 1rem;
+  }
+  .statDivider { display: none; }
+  .stat { min-width: 60px; }
 }
 
 /* Spline */

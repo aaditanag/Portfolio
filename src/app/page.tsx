@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTerminal } from '@/components/TerminalProvider';
@@ -84,6 +84,14 @@ export default function ArenaPage() {
   const router = useRouter();
   const { openTerminal } = useTerminal();
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null);
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('/api/visitors')
+      .then(r => r.json())
+      .then(({ count }) => setVisitorCount(count))
+      .catch(() => {/* silent */});
+  }, []);
 
   const hovered = ROOMS.find(r => r.id === hoveredRoom);
 
@@ -138,6 +146,13 @@ export default function ArenaPage() {
             <div className={styles.stat}>
               <span className={styles.statNum} style={{ color: 'var(--red)' }}>0</span>
               <span className={styles.statLabel}>Impostors (probably)</span>
+            </div>
+            <div className={styles.statDivider} />
+            <div className={styles.stat}>
+              <span className={styles.statNum} style={{ color: 'var(--teal)' }}>
+                {visitorCount !== null ? visitorCount : '…'}
+              </span>
+              <span className={styles.statLabel}>Crewmates boarded</span>
             </div>
           </div>
         </motion.div>
