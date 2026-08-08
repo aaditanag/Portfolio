@@ -22,13 +22,13 @@ const PROJECTS = [
   {
     id: 'proj-02',
     code: 'TASK-02',
-    title: 'Project Beta',
-    description: 'A machine learning powered tool that analyzes patterns and delivers insights. Fast, accurate, and easy to use.',
-    tags: ['Python', 'FastAPI', 'React', 'TensorFlow'],
-    status: 'DEPLOYED',
+    title: 'AI-Traffic-Violation-Detection-with-Echallan-system',
+    description: 'AI automated Traffic violation detection using YOLO ver 8, number plate detect using EasyOCR and then redirecting to a automatic e challan system.',
+    tags: ['Python', 'Javascript', 'TensorFlow', 'HTML/CSS'],
+    status: 'Completed',
     statusColor: 'var(--yellow)',
-    liveUrl: '#',
-    repoUrl: '#',
+    liveUrl: 'https://github.com/aaditanag/AI-Traffic-Violation-Detection-with-Echallan-system',
+    repoUrl: 'https://github.com/aaditanag/AI-Traffic-Violation-Detection-with-Echallan-system',
     color: 'var(--yellow)',
     glow: 'var(--yellow-glow)',
     dim: 'var(--yellow-dim)',
@@ -36,13 +36,13 @@ const PROJECTS = [
   {
     id: 'proj-03',
     code: 'TASK-03',
-    title: 'Project Gamma',
-    description: 'An open-source CLI tool with 1k+ GitHub stars. Developer-first, documented, and actively maintained.',
-    tags: ['TypeScript', 'CLI', 'Open Source'],
-    status: 'OPEN SOURCE',
+    title: 'Hospital_Management_System',
+    description: 'Project on Hospital management, Its a Hospital Management System web application that allows Admins, Doctors, and Patients to interact with the system based on their roles.',
+    tags: ['Python', 'Flask', 'Sqlite3'],
+    status: 'COMPLETED',
     statusColor: 'var(--red)',
-    liveUrl: '#',
-    repoUrl: '#',
+    liveUrl: 'https://github.com/aaditanag/Hospital_Management_23f2000181',
+    repoUrl: 'https://github.com/aaditanag/Hospital_Management_23f2000181',
     color: 'var(--red)',
     glow: 'var(--red-glow)',
     dim: 'var(--red-dim)',
@@ -50,13 +50,13 @@ const PROJECTS = [
   {
     id: 'proj-04',
     code: 'TASK-04',
-    title: 'Project Delta',
-    description: 'A mobile-first e-commerce experience with smooth animations, cart management, and payment integration.',
-    tags: ['Next.js', 'Stripe', 'Prisma', 'Tailwind'],
-    status: 'COMPLETE',
+    title: 'College-Hackathon-Website',
+    description: 'A college hackathon interface where admin can control all functions, add problem statements, and students can register and participate!',
+    tags: ['Next.js', 'Tailwind CSS'],
+    status: 'Deployed',
     statusColor: 'var(--teal)',
-    liveUrl: '#',
-    repoUrl: '#',
+    liveUrl: 'https://svit-hackathon.vercel.app/',
+    repoUrl: 'https://github.com/aaditanag/College-Hackathon-Website',
     color: 'var(--teal)',
     glow: 'var(--teal-glow)',
     dim: 'var(--teal-dim)',
@@ -64,13 +64,13 @@ const PROJECTS = [
   {
     id: 'proj-05',
     code: 'TASK-05',
-    title: 'Project Epsilon',
-    description: 'Real-time collaborative whiteboard application. Multiple cursors, live sync, export to PNG/SVG.',
-    tags: ['Canvas API', 'Socket.io', 'Redis', 'React'],
-    status: 'IN PROGRESS',
+    title: 'Sthavishtah-WebPortal',
+    description: 'WebPortal For a Business',
+    tags: ['Typescript', 'SCSS'],
+    status: 'Deployed',
     statusColor: 'var(--yellow)',
-    liveUrl: '#',
-    repoUrl: '#',
+    liveUrl: 'https://www.sthavishtah.com/',
+    repoUrl: 'https://github.com/sthavishtah1234/Sthavishtah-WebPortal',
     color: 'var(--yellow)',
     glow: 'var(--yellow-glow)',
     dim: 'var(--yellow-dim)',
@@ -83,8 +83,8 @@ const PROJECTS = [
     tags: ['Next.js', 'Framer Motion', 'CSS Modules'],
     status: 'YOU ARE HERE',
     statusColor: 'var(--red)',
-    liveUrl: '#',
-    repoUrl: '#',
+    liveUrl: '/',
+    repoUrl: 'https://github.com/aaditanag/Portfolio',
     color: 'var(--red)',
     glow: 'var(--red-glow)',
     dim: 'var(--red-dim)',
@@ -164,12 +164,28 @@ export default function ProjectsPage() {
             </div>
 
             <div className={styles.cardActions}>
-              <a href={project.liveUrl} className={styles.cardAction} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} live`}>
-                <ExternalLink size={14} /> LIVE
-              </a>
-              <a href={project.repoUrl} className={styles.cardAction} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} on GitHub`}>
-                <Github size={14} /> REPO
-              </a>
+              {project.liveUrl && project.liveUrl !== '#' && (
+                <a
+                  href={project.liveUrl}
+                  className={styles.cardAction}
+                  target={project.liveUrl.startsWith('http') ? '_blank' : '_self'}
+                  rel="noopener noreferrer"
+                  aria-label={`View ${project.title} live`}
+                >
+                  <ExternalLink size={14} /> LIVE
+                </a>
+              )}
+              {project.repoUrl && project.repoUrl !== '#' && (
+                <a
+                  href={project.repoUrl}
+                  className={styles.cardAction}
+                  target={project.repoUrl.startsWith('http') ? '_blank' : '_self'}
+                  rel="noopener noreferrer"
+                  aria-label={`View ${project.title} on GitHub`}
+                >
+                  <Github size={14} /> REPO
+                </a>
+              )}
             </div>
 
             {/* Glow line at bottom */}
