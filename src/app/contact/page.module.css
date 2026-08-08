@@ -1,0 +1,310 @@
+.page {
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  padding: 3rem 5vw 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.roomTag {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--teal);
+  letter-spacing: 0.12em;
+  padding: 0.4rem 0.8rem;
+  background: var(--teal-dim);
+  border: 1px solid rgba(0,200,200,0.2);
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.title {
+  font-family: var(--font-pixel);
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.08em;
+}
+
+/* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  padding: 3rem 5vw 5rem;
+  align-items: start;
+}
+
+/* ===== FORM ===== */
+.formCard {
+  padding: 2rem;
+  border-radius: var(--radius-xl);
+  background: rgba(14, 16, 28, 0.8);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.formTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+}
+
+.formSubtitle {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.3);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+}
+
+.input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-dim);
+}
+
+.input::placeholder { color: rgba(255,255,255,0.2); }
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: var(--font-body);
+}
+
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.9rem !important;
+  font-size: 0.5rem !important;
+}
+
+.submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.sendingAnim {
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* Success */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.successTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.9rem;
+  color: var(--teal);
+  text-shadow: 0 0 12px var(--teal-glow);
+}
+
+.successSub {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  max-width: 280px;
+  line-height: 1.7;
+}
+
+/* ===== INFO PANEL ===== */
+.infoPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.infoCard {
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  background: rgba(14, 16, 28, 0.8);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.infoTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.12em;
+  margin-bottom: 1.2rem;
+}
+
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.2s;
+}
+
+.socialLink:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: var(--social-color, var(--teal));
+  transform: translateX(4px);
+}
+
+.socialIcon { display: flex; align-items: center; }
+
+.socialLabel {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  letter-spacing: 0.08em;
+}
+
+.socialSub {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.2rem;
+}
+
+.socialArrow {
+  margin-left: auto;
+  color: rgba(255,255,255,0.2);
+  font-size: 1rem;
+  transition: color 0.2s, transform 0.2s;
+}
+.socialLink:hover .socialArrow {
+  color: var(--social-color, var(--teal));
+  transform: translateX(3px);
+}
+
+/* Available card */
+.availCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  background: rgba(0, 255, 136, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+.availDot {
+  flex-shrink: 0;
+  margin-top: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--terminal-green);
+  box-shadow: 0 0 8px var(--terminal-green);
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.availTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--terminal-green);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.availSub {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+
+/* Tip card */
+.tipCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.tipIcon { font-size: 1.1rem; flex-shrink: 0; }
+
+.tipTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: var(--yellow);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+}
+
+.tipText {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.5;
+}
+
+.tipText code {
+  font-family: var(--font-terminal);
+  font-size: 0.9rem;
+  color: var(--terminal-green);
+  background: rgba(0,255,136,0.08);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+}

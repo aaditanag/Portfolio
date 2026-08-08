@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* === CORE PALETTE === */
+  --cloak-black: #0a0a0f;
+  --deep-space: #0d0f1a;
+  --panel-dark: #111320;
+  --panel-mid: #161929;
+  --panel-light: #1e2340;
+  --border-dim: rgba(255,255,255,0.08);
+  --border-glow: rgba(95,207,255,0.3);
+
+  /* === CREWMATE COLORS === */
+  --teal: #00c8c8;
+  --teal-glow: rgba(0, 200, 200, 0.4);
+  --teal-dim: rgba(0, 200, 200, 0.15);
+  --red: #e8284a;
+  --red-glow: rgba(232, 40, 74, 0.4);
+  --red-dim: rgba(232, 40, 74, 0.15);
+  --yellow: #f5c518;
+  --yellow-glow: rgba(245, 197, 24, 0.4);
+  --yellow-dim: rgba(245, 197, 24, 0.15);
+
+  /* === TERMINAL === */
+  --terminal-green: #00ff88;
+  --terminal-green-dim: rgba(0, 255, 136, 0.5);
+  --terminal-bg: #060a06;
+
+  /* === TYPOGRAPHY === */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-terminal: 'VT323', monospace;
+  --font-body: 'Outfit', sans-serif;
+
+  /* === SPACING === */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+
+  /* === TRANSITIONS === */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* === RESET === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  background-color: var(--cloak-black);
+  color: #e8eaf6;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--panel-dark); }
+::-webkit-scrollbar-thumb { background: var(--panel-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+
+/* === TYPOGRAPHY === */
+h1, h2, h3 { font-family: var(--font-pixel); line-height: 1.4; }
+h1 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
+h2 { font-size: clamp(0.7rem, 1.8vw, 1rem); }
+h3 { font-size: clamp(0.6rem, 1.4vw, 0.8rem); }
+
+/* === GLASS PANEL === */
+.glass {
+  background: rgba(22, 25, 41, 0.7);
+  border: 1px solid var(--border-dim);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+}
+
+.glass-teal {
+  background: rgba(0, 200, 200, 0.06);
+  border: 1px solid rgba(0, 200, 200, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+.glass-red {
+  background: rgba(232, 40, 74, 0.06);
+  border: 1px solid rgba(232, 40, 74, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+.glass-yellow {
+  background: rgba(245, 197, 24, 0.06);
+  border: 1px solid rgba(245, 197, 24, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+/* === GLOW TEXT === */
+.glow-teal {
+  color: var(--teal);
+  text-shadow: 0 0 12px var(--teal-glow), 0 0 30px var(--teal-glow);
+}
+.glow-red {
+  color: var(--red);
+  text-shadow: 0 0 12px var(--red-glow), 0 0 30px var(--red-glow);
+}
+.glow-yellow {
+  color: var(--yellow);
+  text-shadow: 0 0 12px var(--yellow-glow), 0 0 30px var(--yellow-glow);
+}
+.glow-green {
+  color: var(--terminal-green);
+  text-shadow: 0 0 10px var(--terminal-green-dim);
+}
+
+/* === PIXEL BORDER === */
+.pixel-border {
+  border: 2px solid var(--teal);
+  box-shadow: 0 0 0 4px var(--cloak-black), 0 0 0 6px var(--teal), inset 0 0 20px rgba(0,200,200,0.05);
+}
+
+/* === STAR BACKGROUND === */
+.stars-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(0,200,200,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(232,40,74,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(245,197,24,0.03) 0%, transparent 70%),
+    var(--cloak-black);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stars-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 50%, rgba(0,200,200,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 90%, rgba(245,197,24,0.5) 0%, transparent 100%);
+  background-size: 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px, 280px 280px, 320px 320px, 380px 380px;
+  animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* === SCANLINES OVERLAY === */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* === BUTTON BASE === */
+.btn {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+
+.btn:hover::after { background: rgba(255,255,255,0.06); }
+.btn:active { transform: scale(0.97); }
+
+.btn-teal {
+  background: var(--teal);
+  color: var(--cloak-black);
+  box-shadow: 0 0 20px var(--teal-glow), 0 4px 15px rgba(0,0,0,0.3);
+}
+.btn-teal:hover { box-shadow: 0 0 35px var(--teal-glow), 0 6px 20px rgba(0,0,0,0.4); }
+
+.btn-red {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 0 20px var(--red-glow), 0 4px 15px rgba(0,0,0,0.3);
+}
+.btn-red:hover { box-shadow: 0 0 35px var(--red-glow), 0 6px 20px rgba(0,0,0,0.4); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--teal);
+  border: 1px solid var(--teal);
+}
+.btn-ghost:hover { background: var(--teal-dim); }
+
+/* === ANIMATIONS === */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); }
+  10% { clip-path: inset(30% 0 50% 0); transform: translate(-4px); }
+  20% { clip-path: inset(60% 0 10% 0); transform: translate(4px); }
+  30% { clip-path: inset(10% 0 80% 0); transform: translate(0); }
+  40% { clip-path: inset(50% 0 30% 0); transform: translate(-2px); }
+  50% { clip-path: inset(20% 0 60% 0); transform: translate(2px); }
+  60% { clip-path: inset(70% 0 20% 0); transform: translate(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* === UTILITY === */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+.content-layer {
+  position: relative;
+  z-index: 2;
+}
+
+/* === PAGE TRANSITIONS === */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s var(--ease-smooth);
+}
+
+/* === CHIP / TAG === */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  background: var(--panel-light);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid var(--border-dim);
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: var(--teal-dim);
+}
+
+.chip-teal { background: var(--teal-dim); color: var(--teal); border-color: rgba(0,200,200,0.3); }
+.chip-red { background: var(--red-dim); color: var(--red); border-color: rgba(232,40,74,0.3); }
+.chip-yellow { background: var(--yellow-dim); color: var(--yellow); border-color: rgba(245,197,24,0.3); }
+
+/* ============================
+   GLOBAL MOBILE RESPONSIVENESS
+   ============================ */
+
+/* Ensure nothing overflows horizontally */
+*, *::before, *::after { max-width: 100%; }
+img, video, canvas { max-width: 100%; display: block; }
+
+/* Touch target minimum size */
+button, a, [role="button"] { min-height: 44px; min-width: 44px; }
+
+@media (max-width: 768px) {
+  /* === Crewmate bean — scale down on mobile === */
+  .cssCrewmate {
+    transform: scale(0.75);
+    transform-origin: center center;
+  }
+
+  /* === Buttons — full-width stacking === */
+  .btn { padding: 0.7rem 1.2rem; font-size: 0.45rem !important; }
+
+  /* === Chip tags — allow wrap === */
+  .chip { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
+
+  /* === Headings — prevent overflow === */
+  h1, h2, h3 { overflow-wrap: break-word; word-break: break-word; }
+}
+
+@media (max-width: 480px) {
+  /* === Body font === */
+  body { font-size: 15px; }
+
+  /* === Pixel font headings — even smaller on tiny screens === */
+  h1 { font-size: clamp(0.8rem, 4vw, 1.1rem); }
+
+  /* === Stats row — stack vertically === */
+  .statsRow {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* === Glass panels — remove side padding pressure === */
+  .glass { border-radius: var(--radius-md); }
+
+  /* === Crewmate — even smaller === */
+  .cssCrewmate {
+    transform: scale(0.6);
+  }
+}
+
+/* Disable cursor sparkle on touch-only devices */
+@media (hover: none) and (pointer: coarse) {
+  canvas[aria-hidden="true"] { display: none; }
+}
+

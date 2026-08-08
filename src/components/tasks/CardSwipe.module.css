@@ -1,0 +1,203 @@
+.task {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.taskHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.taskIcon { font-size: 2rem; }
+
+.taskTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+}
+
+.taskSub {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 0.3rem;
+}
+
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 24px;
+}
+
+.statusText {
+  font-family: var(--font-pixel);
+  font-size: 0.42rem;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+
+.attempts {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: rgba(255,255,255,0.25);
+}
+
+/* Speed meter */
+.speedMeter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.speedLabel {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+}
+
+.speedTrack {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--terminal-green) 35%, var(--terminal-green) 70%, var(--red) 100%);
+  opacity: 0.6;
+}
+
+.speedZone {
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+  background: rgba(0, 255, 136, 0.4);
+}
+
+.speedPointer {
+  position: absolute;
+  top: -3px;
+  width: 3px;
+  height: 14px;
+  background: #fff;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: left 0.05s;
+  box-shadow: 0 0 6px #fff;
+}
+
+.speedLabels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-pixel);
+  font-size: 0.32rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.06em;
+}
+
+/* Slot area */
+.slotContainer {
+  position: relative;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow: visible;
+}
+
+.slotTrack {
+  display: flex;
+  align-items: center;
+  width: 85%;
+  height: 52px;
+  gap: 0;
+}
+
+.slotEntry, .slotExit {
+  width: 14px;
+  height: 52px;
+  background: rgba(0,200,200,0.15);
+  border: 1px solid rgba(0,200,200,0.3);
+}
+
+.slotEntry { border-radius: 6px 0 0 6px; }
+.slotExit  { border-radius: 0 6px 6px 0; }
+
+.slotBody {
+  flex: 1;
+  height: 52px;
+  background: rgba(0,200,200,0.05);
+  border-top: 1px solid rgba(0,200,200,0.2);
+  border-bottom: 1px solid rgba(0,200,200,0.2);
+}
+
+/* Card */
+.card {
+  position: absolute;
+  left: 10%;
+  width: 110px;
+  height: 70px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1e2340, #2a3060);
+  border: 1px solid rgba(0,200,200,0.4);
+  box-shadow: 0 0 16px rgba(0,200,200,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 10px;
+  z-index: 10;
+  user-select: none;
+}
+
+.card:active { cursor: grabbing; }
+
+.cardChip {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #f5c518, #c09010);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.cardName {
+  font-family: var(--font-pixel);
+  font-size: 0.35rem;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.05em;
+}
+
+.cardId {
+  font-family: var(--font-terminal);
+  font-size: 0.75rem;
+  color: rgba(0,200,200,0.6);
+}
+
+.cardStripe {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 6px;
+  background: linear-gradient(180deg, var(--teal), var(--red));
+  border-radius: 0 8px 8px 0;
+  opacity: 0.6;
+}
+
+.successCard {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--terminal-green);
+  text-shadow: 0 0 12px var(--terminal-green);
+  text-align: center;
+  letter-spacing: 0.08em;
+}

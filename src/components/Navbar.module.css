@@ -1,0 +1,130 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 2rem;
+  background: rgba(10, 10, 18, 0.85);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  font-size: 1.4rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.logoText {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px var(--teal-glow);
+}
+
+.links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: color 0.2s, background 0.2s;
+  border: 1px solid transparent;
+}
+
+.link:hover {
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.link.active {
+  color: var(--teal);
+  background: var(--teal-dim);
+  border-color: rgba(0,200,200,0.25);
+}
+
+.linkIcon { font-size: 0.85rem; }
+.linkLabel { letter-spacing: 0.1em; }
+
+.activeDot {
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 6px var(--teal-glow);
+}
+
+.terminalBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-terminal);
+  font-size: 1rem;
+  color: var(--terminal-green);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.terminalBtn:hover {
+  background: rgba(0, 255, 136, 0.15);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
+}
+
+.termBtnLabel {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .links { gap: 0; }
+  .linkLabel { display: none; }
+  .logoText { display: none; }
+  .termBtnLabel { display: none; }
+  .nav { padding: 0 1rem; }
+}

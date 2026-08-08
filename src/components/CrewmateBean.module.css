@@ -1,0 +1,147 @@
+.cssCrewmate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: crewFloat 3.5s ease-in-out infinite;
+}
+
+@keyframes crewFloat {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-22px) rotate(1deg); }
+}
+
+/* Pulse rings behind body */
+.crewRing {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--crew-rgb), 0.18);
+  animation: crewRingPulse 3.5s ease-out infinite;
+  pointer-events: none;
+}
+.crewRing2 {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--crew-rgb), 0.08);
+  animation: crewRingPulse 3.5s ease-out infinite 1s;
+  pointer-events: none;
+}
+@keyframes crewRingPulse {
+  0%   { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+/* Bean body */
+.crewBody {
+  position: relative;
+  width: 160px;
+  height: 200px;
+  background: linear-gradient(160deg, var(--crew-light) 0%, var(--crew-mid) 60%, var(--crew-dark) 100%);
+  border-radius: 50% 50% 42% 42% / 55% 55% 38% 38%;
+  box-shadow:
+    0 0 40px rgba(var(--crew-rgb), 0.5),
+    0 0 80px rgba(var(--crew-rgb), 0.2),
+    inset 0 4px 12px rgba(255, 255, 255, 0.15),
+    inset 0 -6px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Visor */
+.crewVisor {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 54px;
+  background: linear-gradient(160deg, #a0e8ff 0%, #5ccfff 40%, #1a9fd4 100%);
+  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+  box-shadow:
+    0 0 16px rgba(100, 220, 255, 0.6),
+    inset 0 2px 8px rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+}
+.crewVisorShine {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  width: 24px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  filter: blur(4px);
+}
+
+/* Backpack */
+.crewPack {
+  position: absolute;
+  right: -26px;
+  top: 40px;
+  width: 30px;
+  height: 72px;
+  background: linear-gradient(180deg, var(--crew-mid) 0%, var(--crew-dark) 100%);
+  border-radius: 6px 10px 10px 6px;
+  box-shadow:
+    4px 0 12px rgba(0, 0, 0, 0.3),
+    inset -2px 0 6px rgba(0,0,0,0.2);
+}
+.crewPackVent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  box-shadow: 0 -8px 0 rgba(0,0,0,0.2), 0 8px 0 rgba(0,0,0,0.2);
+}
+
+/* Legs */
+.crewLegs {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+}
+.crewLegL,
+.crewLegR {
+  width: 40px;
+  height: 36px;
+  background: linear-gradient(180deg, var(--crew-mid) 0%, var(--crew-dark) 100%);
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+.crewLegL { animation: legWiggleL 3.5s ease-in-out infinite; }
+.crewLegR { animation: legWiggleR 3.5s ease-in-out infinite; }
+
+@keyframes legWiggleL {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(-8deg); }
+  75%       { transform: rotate(4deg); }
+}
+@keyframes legWiggleR {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(6deg); }
+  75%       { transform: rotate(-10deg); }
+}
+
+/* Ellipse shadow on ground */
+.crewShadow {
+  margin-top: 40px;
+  width: 120px;
+  height: 18px;
+  background: radial-gradient(ellipse, rgba(var(--crew-rgb), 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: shadowPulse 3.5s ease-in-out infinite;
+}
+@keyframes shadowPulse {
+  0%, 100% { transform: scaleX(1);   opacity: 0.6; }
+  50%       { transform: scaleX(0.7); opacity: 0.25; }
+}

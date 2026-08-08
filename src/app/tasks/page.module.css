@@ -1,0 +1,373 @@
+.page {
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  padding: 3rem 5vw 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.roomTag {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--yellow);
+  padding: 0.4rem 0.8rem;
+  background: var(--yellow-dim);
+  border: 1px solid rgba(245,197,24,0.2);
+  border-radius: 100px;
+  width: fit-content;
+  letter-spacing: 0.1em;
+}
+
+.title {
+  font-family: var(--font-pixel);
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Progress */
+.progressBar {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.08em;
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--yellow));
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--teal-glow);
+}
+
+.victoryBanner {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--yellow);
+  text-shadow: 0 0 12px var(--yellow-glow);
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--yellow-dim);
+  border: 1px solid rgba(245,197,24,0.3);
+  width: fit-content;
+  letter-spacing: 0.1em;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+/* ===== TASK GRID ===== */
+.taskGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 3rem 5vw;
+}
+
+.taskCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  background: rgba(14, 16, 28, 0.8);
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.taskCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top, var(--task-dim, rgba(0,200,200,0.05)) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.taskCard:hover:not(.taskDone) {
+  border-color: var(--task-color, var(--teal));
+  box-shadow: 0 0 30px var(--task-glow, var(--teal-glow));
+}
+
+.taskDone {
+  border-color: rgba(0, 255, 136, 0.2);
+  background: rgba(0, 255, 136, 0.04);
+}
+
+.taskCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskCode {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+}
+
+.taskRoom {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  letter-spacing: 0.1em;
+}
+
+.taskEmoji {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.taskTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.taskDesc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.taskReward {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: var(--terminal-green);
+  letter-spacing: 0.06em;
+  padding: 0.4rem 0.6rem;
+  background: rgba(0, 255, 136, 0.06);
+  border: 1px solid rgba(0, 255, 136, 0.12);
+  border-radius: var(--radius-sm);
+}
+
+.taskBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  letter-spacing: 0.08em;
+  background: transparent;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.taskDone .taskBtn {
+  color: var(--terminal-green);
+  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(0, 255, 136, 0.06);
+  cursor: default;
+}
+
+.taskBtn:not(:disabled):hover {
+  background: var(--task-dim, var(--teal-dim));
+}
+
+/* ===== REWARDS ===== */
+.rewardSection {
+  margin: 0 5vw;
+  padding: 2rem;
+  border-radius: var(--radius-xl);
+  background: rgba(14, 16, 28, 0.7);
+  border: 1px solid rgba(0, 255, 136, 0.15);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.rewardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.rewardTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--terminal-green);
+  letter-spacing: 0.1em;
+}
+
+/* Fun facts */
+.factsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.factCard {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.factNum {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--yellow);
+  flex-shrink: 0;
+}
+
+.factCard p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+}
+
+/* Resume */
+.resumeCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(0,200,200,0.06);
+  border: 1px solid rgba(0,200,200,0.15);
+}
+
+.resumeCard p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Secret */
+.secretCard {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(232,40,74,0.06);
+  border: 1px solid rgba(232,40,74,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.secretBadge {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: var(--red);
+  background: var(--red-dim);
+  border: 1px solid rgba(232,40,74,0.3);
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  width: fit-content;
+  letter-spacing: 0.15em;
+}
+
+.secretTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--red);
+}
+
+.secretDesc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+}
+
+.secretTags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ===== MODAL ===== */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 12, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  border-radius: var(--radius-xl);
+  background: rgba(12, 14, 24, 0.98);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,200,200,0.08);
+  overflow: hidden;
+}
+
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.modalClose:hover { background: rgba(232,40,74,0.2); color: #fff; border-color: var(--red); }
+
+@media (max-width: 768px) {
+  .taskGrid { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .resumeCard { flex-direction: column; text-align: center; }
+  .header { padding: 2rem 1.5rem 1.5rem; }
+  .factsGrid { grid-template-columns: 1fr; }
+  .rewardSection { margin: 0 1rem 1.5rem; padding: 1.25rem; }
+  .modal { max-width: 100%; border-radius: var(--radius-lg); }
+  .modalOverlay { padding: 1rem; align-items: flex-end; }
+}
+
+@media (max-width: 480px) {
+  .progressBar { max-width: 100%; }
+  .modal { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+}
+

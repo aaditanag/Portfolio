@@ -1,0 +1,184 @@
+.task {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.taskHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.taskIcon { font-size: 2rem; }
+
+.taskTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  color: var(--yellow);
+  letter-spacing: 0.1em;
+}
+
+.taskSub {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 0.3rem;
+}
+
+.successBanner {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--terminal-green);
+  text-align: center;
+  padding: 0.8rem;
+  background: rgba(0,255,136,0.08);
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: var(--radius-md);
+  letter-spacing: 0.08em;
+}
+
+/* Wire Board */
+.wireBoard {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-height: 220px;
+  padding: 1rem 0;
+}
+
+.wireSide, .socketSide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.sideLabel {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.wireRow, .socketRow {
+  display: flex;
+  align-items: center;
+  height: 36px;
+}
+
+/* Wire side */
+.wireEndpoint {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2);
+  cursor: grab;
+  flex-shrink: 0;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.wireEndpoint:not(.connected):hover {
+  transform: scale(1.15);
+  cursor: grabbing;
+}
+
+.wireEndpoint.connected {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.wireEndpoint.wrong {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.wireLine {
+  height: 3px;
+  width: 60px;
+  border-radius: 2px;
+  transition: background 0.3s, box-shadow 0.3s;
+  flex-shrink: 0;
+}
+
+/* Gap */
+.gap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dragHint {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
+}
+
+/* Socket side */
+.socketLine {
+  height: 3px;
+  width: 60px;
+  border-radius: 2px;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.socket {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+  transition: box-shadow 0.2s;
+}
+
+.socketDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  letter-spacing: 0.06em;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legendCheck {
+  color: var(--terminal-green);
+  font-size: 0.7rem;
+}

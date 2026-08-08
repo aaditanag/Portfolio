@@ -1,0 +1,275 @@
+.page {
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 5vw;
+  gap: 3rem;
+}
+
+.splinePanel {
+  position: relative;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splineGlow {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,197,24,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bioPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.roomTag {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--yellow);
+  letter-spacing: 0.12em;
+  padding: 0.4rem 0.8rem;
+  background: var(--yellow-dim);
+  border: 1px solid rgba(245,197,24,0.2);
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.heroTitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+  color: #fff;
+  line-height: 1.2;
+}
+
+.heroRole {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.bioText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.bioText p {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+}
+
+.bioStats {
+  display: flex;
+  gap: 2rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  width: fit-content;
+}
+
+.bioStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
+
+.bioStatNum {
+  font-family: var(--font-pixel);
+  font-size: 1.1rem;
+}
+
+/* ===== SKILLS ===== */
+.skillsSection {
+  padding: 4rem 5vw;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.sectionTitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+  color: #fff;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.skillGroup {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(16, 19, 34, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.3s;
+}
+
+.skillGroup:hover { border-color: var(--skill-color, var(--teal)); }
+
+.skillGroupLabel {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  letter-spacing: 0.12em;
+}
+
+.skillChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skillChip {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.2s;
+}
+
+.skillGroup:hover .skillChip {
+  color: var(--skill-color, var(--teal));
+  border-color: var(--skill-color, var(--teal));
+  background: rgba(0,200,200,0.05);
+}
+
+/* ===== TIMELINE ===== */
+.timelineSection {
+  padding: 4rem 5vw 6rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.timeline {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--teal), var(--yellow), var(--red), transparent);
+  opacity: 0.3;
+}
+
+.timelineItem {
+  position: relative;
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem 0 1.5rem 3rem;
+}
+
+.timelineDot {
+  position: absolute;
+  left: 7px;
+  top: 2rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--cloak-black);
+  flex-shrink: 0;
+}
+
+.timelineContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: rgba(16, 19, 34, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  flex: 1;
+  transition: border-color 0.3s;
+}
+
+.timelineItem:hover .timelineContent {
+  border-color: rgba(255,255,255,0.12);
+}
+
+.timelineYear {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.timelineTitle {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.timelinePlace {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.05em;
+}
+
+.timelineDesc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-top: 0.3rem;
+}
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .splinePanel { height: 300px; }
+  .bioPanel { text-align: center; }
+  .roomTag, .bioStats { margin: 0 auto; }
+}
+
+@media (max-width: 768px) {
+  .skillsGrid { grid-template-columns: 1fr 1fr; }
+  .timeline { padding-left: 1rem; }
+  .timelineItem { flex-direction: column; gap: 0.5rem; }
+  .bioText { font-size: 0.9rem; }
+  .section { padding: 3rem 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .skillsGrid { grid-template-columns: 1fr; }
+  .hero { padding: 2rem 1rem; }
+  .heroTitle { font-size: clamp(0.9rem, 5vw, 1.3rem); }
+  .bioStats {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+}
+
