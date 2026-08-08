@@ -6,16 +6,17 @@ import styles from './page.module.css';
 
 const SKILLS = [
   { category: 'FRONTEND', color: 'var(--teal)', items: ['React', 'Next.js', 'TypeScript', 'CSS Modules', 'Framer Motion', 'Three.js'] },
-  { category: 'BACKEND',  color: 'var(--red)',  items: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'REST APIs', 'WebSockets'] },
-  { category: 'DATA',     color: 'var(--yellow)', items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma', 'SQL', 'Firebase'] },
-  { category: 'DEVOPS',   color: 'var(--teal)', items: ['Docker', 'GitHub Actions', 'Vercel', 'AWS', 'Linux', 'nginx'] },
+  { category: 'BACKEND', color: 'var(--red)', items: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'REST APIs', 'WebSockets'] },
+  { category: 'DATA', color: 'var(--yellow)', items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma', 'SQL', 'Firebase'] },
+  { category: 'DEVOPS', color: 'var(--teal)', items: ['Docker', 'GitHub Actions', 'Vercel', 'AWS', 'Linux', 'nginx'] },
 ];
 
 const TIMELINE = [
-  { year: '2024', title: 'Senior Developer', place: 'Starship Corp.', color: 'var(--teal)', desc: 'Led a team of 4 to build a real-time collaboration platform serving 50k+ users.' },
-  { year: '2023', title: 'Full-Stack Engineer', place: 'MedBay Systems', color: 'var(--yellow)', desc: 'Built healthcare dashboards, HIPAA-compliant APIs, and a mobile-first patient portal.' },
-  { year: '2022', title: 'Frontend Developer', place: 'Reactor Labs', color: 'var(--red)', desc: 'Shipped pixel-perfect UIs, improved Core Web Vitals by 40%, mentored junior devs.' },
-  { year: '2021', title: 'CS Graduate', place: 'University of Skeld', color: 'var(--teal)', desc: 'Graduated with honors. Specialized in distributed systems and human-computer interaction.' },
+  { year: 'INTERNSHIP', title: 'Social Media Manager & Content Lead', place: 'GO-BRICS Business Lab · Remote (St. Petersburg)', color: 'var(--teal)', desc: 'Managed content creation and led social media strategies for international business initiatives.' },
+  { year: '2026-PRESENT', title: 'Treasurer · Coding Club', place: 'Sai Vidya Institute of Technology', color: 'var(--yellow)', desc: 'Managing finances, organizing tech workshops, and driving coding initiatives across campus.' },
+  { year: '2025-2026', title: 'Webops Team Lead', place: 'Pichavaram House · IIT Madras', color: 'var(--teal)', desc: 'Leading technical operations for the Webops department, aligning academic data science with practical tech solutions.' },
+  { year: '2025-26', title: 'Event Coordinator & Management', place: 'Paradox · IIT Madras', color: 'var(--red)', desc: 'Handling event planning, logistics, and execution for major cultural and technical flagship events.' },
+  { year: 'ACADEMICS', title: 'Dual Degree Candidate', place: 'IIT Madras & SVIT', color: 'var(--teal)', desc: 'Pursuing BS in Data Science & Applications at IIT Madras and BE in Computer Science at SVIT.' },
 ];
 
 function TimelineItem({ item, index }: { item: typeof TIMELINE[0]; index: number }) {
@@ -66,17 +67,16 @@ export default function AboutPage() {
           <h1 className={styles.heroTitle}>
             CREWMATE<span style={{ color: 'var(--yellow)' }}>_AADITA</span>
           </h1>
-          <p className={styles.heroRole}>Full-Stack Developer</p>
+          <p className={styles.heroRole}>Full-Stack Developer & Data Science Student</p>
           <div className={styles.bioText}>
             <p>
-              I build digital experiences that are fast, accessible, and genuinely fun to use.
-              With {new Date().getFullYear() - 2021}+ years of professional experience, I&apos;ve shipped
-              products for startups and enterprises alike.
+              Currently pursuing a Bachelor of Science in Data Science and Applications at IIT Madras and a Bachelor of Engineering in Computer Science at Sai Vidya Institute of Technology. I contribute to technical operations, aligning my academic focus with practical applications in technology and data-driven solutions.
             </p>
             <p>
-              I love the intersection of design and engineering — the place where a beautifully
-              architected system meets a UI that makes people smile. If you&apos;ve completed the
-              wire task, you already know: I sweat the details.
+              My experience includes event coordination and management roles at Paradox, IIT Madras, as well as leadership as Treasurer of the Coding Club at Sai Vidya Institute of Technology. As a passionate fresher focused on event planning, creativity, and collaboration, I strive to contribute to projects that blend technology and innovation.
+            </p>
+            <p>
+              I love the intersection of design and engineering — the place where a beautifully architected system meets a UI that makes people smile. If you've completed the wire task, you already know: I sweat the details.
             </p>
             <p>
               When I&apos;m not coding, I&apos;m probably sketching interfaces on paper, playing
@@ -86,12 +86,12 @@ export default function AboutPage() {
 
           <div className={styles.bioStats}>
             <div className={styles.bioStat}>
-              <span style={{ color: 'var(--teal)' }} className={styles.bioStatNum}>4+</span>
-              <span>Years XP</span>
+              <span style={{ color: 'var(--teal)' }} className={styles.bioStatNum}>Fresher</span>
+              <span>Level</span>
             </div>
             <div className={styles.bioStat}>
-              <span style={{ color: 'var(--yellow)' }} className={styles.bioStatNum}>20+</span>
-              <span>Projects</span>
+              <span style={{ color: 'var(--yellow)' }} className={styles.bioStatNum}>2</span>
+              <span>Degrees</span>
             </div>
             <div className={styles.bioStat}>
               <span style={{ color: 'var(--red)' }} className={styles.bioStatNum}>∞</span>
