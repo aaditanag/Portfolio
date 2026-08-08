@@ -106,7 +106,7 @@ export default function ArenaPage() {
           <h1 className={styles.title}>
             <span className="glow-teal">CREWMATE</span>
             <br />
-            <span className={styles.titleSub}>_01</span>
+            <span className={styles.titleSub}>_AADITA</span>
           </h1>
 
           <p className={styles.role}>Full-Stack Developer</p>
