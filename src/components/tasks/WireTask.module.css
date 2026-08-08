@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .taskHeader {
@@ -52,7 +54,7 @@
 .wireSide, .socketSide {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex-shrink: 0;
 }
 
@@ -67,23 +69,39 @@
 .wireRow, .socketRow {
   display: flex;
   align-items: center;
-  height: 36px;
+  height: 42px;
 }
 
 /* Wire side */
 .wireEndpoint {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.2);
-  cursor: grab;
+  border: 2px solid rgba(255,255,255,0.3);
+  cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  padding: 0;
+  outline: none;
+  background: none;
+  touch-action: manipulation;
+  position: relative;
 }
 
 .wireEndpoint:not(.connected):hover {
   transform: scale(1.15);
-  cursor: grabbing;
+  cursor: pointer;
+}
+
+.wireEndpoint.selected {
+  transform: scale(1.2);
+  border-color: #fff;
+  animation: pulseSelect 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes pulseSelect {
+  from { transform: scale(1.15); box-shadow: 0 0 12px currentColor; }
+  to { transform: scale(1.3); box-shadow: 0 0 22px currentColor; }
 }
 
 .wireEndpoint.connected {
@@ -102,7 +120,7 @@
 }
 
 .wireLine {
-  height: 3px;
+  height: 4px;
   width: 60px;
   border-radius: 2px;
   transition: background 0.3s, box-shadow 0.3s;
@@ -115,18 +133,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 0.5rem;
 }
 
 .dragHint {
   font-family: var(--font-pixel);
   font-size: 0.38rem;
-  color: rgba(255,255,255,0.2);
+  color: var(--yellow);
   text-align: center;
 }
 
 /* Socket side */
 .socketLine {
-  height: 3px;
+  height: 4px;
   width: 60px;
   border-radius: 2px;
   transition: background 0.3s;
@@ -134,21 +153,35 @@
 }
 
 .socket {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 2px solid;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.3);
-  transition: box-shadow 0.2s;
+  background: rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  touch-action: manipulation;
+}
+
+.socketTarget {
+  animation: pulseSocket 0.8s infinite alternate ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes pulseSocket {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.2); }
 }
 
 .socketDot {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
 }
 
@@ -181,4 +214,28 @@
 .legendCheck {
   color: var(--terminal-green);
   font-size: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .task {
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+  }
+  .wireBoard {
+    min-height: 190px;
+  }
+  .wireLine, .socketLine {
+    width: 32px;
+  }
+  .gap {
+    padding: 0 0.25rem;
+  }
+  .dragHint {
+    font-size: 0.32rem;
+  }
+  .legend {
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    justify-content: center;
+  }
 }

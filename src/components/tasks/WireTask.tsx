@@ -19,20 +19,32 @@ interface WireTaskProps {
 
 export default function WireTask({ onComplete }: WireTaskProps) {
   const [connections, setConnections] = useState<Record<string, string>>({});
+  const [selectedWire, setSelectedWire] = useState<string | null>(null);
   const [dragging, setDragging] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [wrong, setWrong] = useState<string | null>(null);
 
   const connected = useCallback((wireId: string) => !!connections[wireId], [connections]);
-  const allConnected = WIRES.every(w => connections[w.id] === w.id);
 
-  const handleDrop = useCallback((socketId: string) => {
-    if (!dragging) return;
+  const handleWireSelect = useCallback((wireId: string) => {
+    if (connected(wireId)) return;
+    if (selectedWire === wireId) {
+      setSelectedWire(null);
+      setDragging(null);
+    } else {
+      setSelectedWire(wireId);
+      setDragging(wireId);
+    }
+  }, [connected, selectedWire]);
 
-    if (dragging === socketId) {
+  const handleSocketClick = useCallback((socketId: string) => {
+    const activeWire = selectedWire || dragging;
+    if (!activeWire) return;
+
+    if (activeWire === socketId) {
       // Correct!
       setConnections(prev => {
-        const next = { ...prev, [dragging]: socketId };
+        const next = { ...prev, [activeWire]: socketId };
         const allDone = WIRES.every(w => next[w.id] === w.id);
         if (allDone) {
           setSuccess(true);
@@ -40,13 +52,18 @@ export default function WireTask({ onComplete }: WireTaskProps) {
         }
         return next;
       });
+      setSelectedWire(null);
+      setDragging(null);
     } else {
       // Wrong
-      setWrong(dragging);
+      setWrong(activeWire);
+      setSelectedWire(null);
+      setDragging(null);
       setTimeout(() => setWrong(null), 600);
     }
-    setDragging(null);
-  }, [dragging, onComplete]);
+  }, [selectedWire, dragging, onComplete]);
+
+  const activeWire = selectedWire || dragging;
 
   return (
     <div className={styles.task}>
@@ -54,7 +71,7 @@ export default function WireTask({ onComplete }: WireTaskProps) {
         <span className={styles.taskIcon}>⚡</span>
         <div>
           <h2 className={styles.taskTitle}>FIX WIRING</h2>
-          <p className={styles.taskSub}>Drag each wire to its matching colored socket</p>
+          <p className={styles.taskSub}>Tap or drag each wire to its matching socket</p>
         </div>
       </div>
 
@@ -76,40 +93,48 @@ export default function WireTask({ onComplete }: WireTaskProps) {
         {/* Left: Wires */}
         <div className={styles.wireSide}>
           <div className={styles.sideLabel}>WIRES</div>
-          {WIRES.map(wire => (
-            <div key={wire.id} className={styles.wireRow}>
-              <div
-                className={`${styles.wireEndpoint} ${connected(wire.id) ? styles.connected : ''} ${wrong === wire.id ? styles.wrong : ''}`}
-                draggable={!connected(wire.id)}
-                onDragStart={() => setDragging(wire.id)}
-                onDragEnd={() => setDragging(null)}
-                style={{ background: wire.color, boxShadow: `0 0 10px ${wire.color}80` }}
-                title={`Drag ${wire.label} wire`}
-              />
-              <div
-                className={styles.wireLine}
-                style={{
-                  background: connected(wire.id)
-                    ? wire.color
-                    : dragging === wire.id
-                    ? `${wire.color}60`
-                    : 'rgba(255,255,255,0.1)',
-                  boxShadow: connected(wire.id) ? `0 0 8px ${wire.color}60` : 'none',
-                }}
-              />
-            </div>
-          ))}
+          {WIRES.map(wire => {
+            const isConn = connected(wire.id);
+            const isSel = selectedWire === wire.id;
+            const isWrong = wrong === wire.id;
+            return (
+              <div key={wire.id} className={styles.wireRow}>
+                <button
+                  type="button"
+                  className={`${styles.wireEndpoint} ${isConn ? styles.connected : ''} ${isSel ? styles.selected : ''} ${isWrong ? styles.wrong : ''}`}
+                  draggable={!isConn}
+                  onDragStart={() => setDragging(wire.id)}
+                  onDragEnd={() => setDragging(null)}
+                  onClick={() => handleWireSelect(wire.id)}
+                  style={{ background: wire.color, boxShadow: isSel ? `0 0 16px ${wire.color}` : `0 0 10px ${wire.color}80` }}
+                  title={`Select/Drag ${wire.label} wire`}
+                  aria-label={`Select ${wire.label} wire`}
+                />
+                <div
+                  className={styles.wireLine}
+                  style={{
+                    background: isConn || isSel
+                      ? wire.color
+                      : activeWire === wire.id
+                      ? `${wire.color}80`
+                      : 'rgba(255,255,255,0.1)',
+                    boxShadow: isConn || isSel ? `0 0 8px ${wire.color}80` : 'none',
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Center gap */}
         <div className={styles.gap}>
-          {dragging && (
+          {activeWire && (
             <motion.div
               className={styles.dragHint}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              drop on matching socket →
+              tap matching socket →
             </motion.div>
           )}
         </div>
@@ -126,15 +151,17 @@ export default function WireTask({ onComplete }: WireTaskProps) {
                   className={styles.socketLine}
                   style={{ background: isConnected ? wire.color : 'rgba(255,255,255,0.1)' }}
                 />
-                <div
-                  className={`${styles.socket} ${isConnected ? styles.socketFilled : ''}`}
+                <button
+                  type="button"
+                  className={`${styles.socket} ${isConnected ? styles.socketFilled : ''} ${activeWire === socketId ? styles.socketTarget : ''}`}
                   onDragOver={e => e.preventDefault()}
-                  onDrop={() => handleDrop(socketId)}
+                  onDrop={() => handleSocketClick(socketId)}
+                  onClick={() => handleSocketClick(socketId)}
                   style={{ borderColor: wire.color, boxShadow: isConnected ? `0 0 12px ${wire.color}60` : 'none' }}
                   aria-label={`${wire.label} socket`}
                 >
                   {isConnected && <div className={styles.socketDot} style={{ background: wire.color }} />}
-                </div>
+                </button>
               </div>
             );
           })}
