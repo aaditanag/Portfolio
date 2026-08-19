@@ -1,5 +1,4 @@
 'use client';
-import { useEffect } from 'react';
 
 /* ─── Types ─────────────────────────────────────────────────────────────────── */
 interface CrewmateSVGProps {
@@ -10,188 +9,8 @@ interface CrewmateSVGProps {
   hasBackpack?: boolean;
 }
 
-interface ImposterKillSceneProps {
-  sound?: boolean;
-}
-
-/* ─── SFX hook ──────────────────────────────────────────────────────────────── */
-const LOOP_MS = 9000;
-
-function useImposterSFX(enabled: boolean) {
-  useEffect(() => {
-    if (!enabled) return;
-
-    let ctx: AudioContext | null = null;
-    let interval: ReturnType<typeof setInterval> | null = null;
-
-    function init() {
-      ctx = new (window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext)();
-
-      function tone(
-        freq: number,
-        start: number,
-        duration: number,
-        type: OscillatorType = 'sine',
-        peak = 0.15,
-      ) {
-        if (!ctx) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
-        gain.gain.setValueAtTime(0, ctx.currentTime + start);
-        gain.gain.linearRampToValueAtTime(peak, ctx.currentTime + start + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + duration);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(ctx.currentTime + start);
-        osc.stop(ctx.currentTime + start + duration + 0.05);
-      }
-
-      function noiseBurst(start: number, duration: number, peak = 0.08) {
-        if (!ctx) return;
-        const bufferSize = ctx.sampleRate * duration;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++)
-          data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
-        const src = ctx.createBufferSource();
-        src.buffer = buffer;
-        const gain = ctx.createGain();
-        gain.gain.setValueAtTime(peak, ctx.currentTime + start);
-        src.connect(gain);
-        gain.connect(ctx.destination);
-        src.start(ctx.currentTime + start);
-      }
-
-      function scheduleLoop() {
-        if (!ctx) return;
-        const t = ctx.currentTime;
-
-        // ── Impostor approach thud at 2.6s ──────────────────────────────────
-        {
-          const s = 2.6;
-          const osc = ctx.createOscillator();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(90, t + s);
-          osc.frequency.exponentialRampToValueAtTime(40, t + s + 0.14);
-          const g = ctx.createGain();
-          g.gain.setValueAtTime(0.12, t + s);
-          g.gain.exponentialRampToValueAtTime(0.001, t + s + 0.14);
-          osc.connect(g); g.connect(ctx.destination);
-          osc.start(t + s); osc.stop(t + s + 0.18);
-        }
-
-        // ── KILL at 3.06s (= 34% of 9s — matches kill flash exactly) ────────
-        const ks = 3.06;
-
-        // Knife slash: very short high-pass noise burst — the sharp "schink"
-        {
-          const len = Math.floor(ctx.sampleRate * 0.028);
-          const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-          const d   = buf.getChannelData(0);
-          for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-          const src = ctx.createBufferSource();
-          src.buffer = buf;
-          const hp = ctx.createBiquadFilter();
-          hp.type = 'highpass';
-          hp.frequency.value = 2800;
-          const g = ctx.createGain();
-          g.gain.setValueAtTime(0.48, t + ks);
-          g.gain.exponentialRampToValueAtTime(0.001, t + ks + 0.028);
-          src.connect(hp); hp.connect(g); g.connect(ctx.destination);
-          src.start(t + ks);
-        }
-
-        // Kill thud: heavy low sine — the impact
-        {
-          const osc = ctx.createOscillator();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(180, t + ks + 0.005);
-          osc.frequency.exponentialRampToValueAtTime(38, t + ks + 0.2);
-          const g = ctx.createGain();
-          g.gain.setValueAtTime(0.58, t + ks + 0.005);
-          g.gain.exponentialRampToValueAtTime(0.001, t + ks + 0.2);
-          osc.connect(g); g.connect(ctx.destination);
-          osc.start(t + ks + 0.005); osc.stop(t + ks + 0.25);
-        }
-
-        // Kill sting: quick descending sawtooth
-        {
-          const osc = ctx.createOscillator();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(380, t + ks + 0.01);
-          osc.frequency.exponentialRampToValueAtTime(70, t + ks + 0.11);
-          const g = ctx.createGain();
-          g.gain.setValueAtTime(0.14, t + ks + 0.01);
-          g.gain.exponentialRampToValueAtTime(0.001, t + ks + 0.11);
-          osc.connect(g); g.connect(ctx.destination);
-          osc.start(t + ks + 0.01); osc.stop(t + ks + 0.14);
-        }
-
-        // ── Ghost shimmer at 3.5s ──────────────────────────────────────────
-        {
-          const s = 3.5;
-          const osc = ctx.createOscillator();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(900, t + s);
-          osc.frequency.linearRampToValueAtTime(1300, t + s + 0.12);
-          osc.frequency.exponentialRampToValueAtTime(650, t + s + 0.38);
-          const g = ctx.createGain();
-          g.gain.setValueAtTime(0, t + s);
-          g.gain.linearRampToValueAtTime(0.055, t + s + 0.06);
-          g.gain.exponentialRampToValueAtTime(0.001, t + s + 0.38);
-          osc.connect(g); g.connect(ctx.destination);
-          osc.start(t + s); osc.stop(t + s + 0.42);
-        }
-
-        // ── Vent suck at 6.4s ─────────────────────────────────────────────
-        {
-          const s = 6.4;
-          const len = Math.floor(ctx.sampleRate * 0.48);
-          const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-          const d   = buf.getChannelData(0);
-          for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-          const src = ctx.createBufferSource();
-          src.buffer = buf;
-          const bp = ctx.createBiquadFilter();
-          bp.type = 'bandpass';
-          bp.frequency.setValueAtTime(900, t + s);
-          bp.frequency.exponentialRampToValueAtTime(160, t + s + 0.48);
-          bp.Q.value = 2.2;
-          const g = ctx.createGain();
-          g.gain.setValueAtTime(0, t + s);
-          g.gain.linearRampToValueAtTime(0.22, t + s + 0.06);
-          g.gain.exponentialRampToValueAtTime(0.001, t + s + 0.48);
-          src.connect(bp); bp.connect(g); g.connect(ctx.destination);
-          src.start(t + s);
-        }
-      }
 
 
-      scheduleLoop();
-      interval = setInterval(scheduleLoop, LOOP_MS);
-    }
-
-    // Audio requires a user gesture first — attach once on any interaction
-    const unlock = () => {
-      document.removeEventListener('click', unlock);
-      document.removeEventListener('keydown', unlock);
-      init();
-    };
-    document.addEventListener('click', unlock);
-    document.addEventListener('keydown', unlock);
-
-    return () => {
-      document.removeEventListener('click', unlock);
-      document.removeEventListener('keydown', unlock);
-      if (interval) clearInterval(interval);
-      if (ctx) ctx.close();
-    };
-  }, [enabled]);
-}
 
 /* ─── Crewmate SVG ──────────────────────────────────────────────────────────── */
 function CrewmateSVG({ body, leg, shade, stroke, hasBackpack = false }: CrewmateSVGProps) {
@@ -212,8 +31,7 @@ function CrewmateSVG({ body, leg, shade, stroke, hasBackpack = false }: Crewmate
 }
 
 /* ─── Scene ─────────────────────────────────────────────────────────────────── */
-export default function ImposterKillScene({ sound = true }: ImposterKillSceneProps) {
-  useImposterSFX(sound);
+export default function ImposterKillScene() {
 
   return (
     <div
@@ -263,11 +81,12 @@ export default function ImposterKillScene({ sound = true }: ImposterKillScenePro
           76%, 100% { opacity: 0; }
         }
 
-        /* Kill flash */
+        /* Kill flash — small radial burst at the kill point, not full-screen */
         @keyframes auFlash {
-          0%, 30%   { opacity: 0; }
-          33%       { opacity: 0.72; }
-          36%, 100% { opacity: 0; }
+          0%, 30%    { opacity: 0;   transform: translateX(-50%) scale(0);   }
+          31%        { opacity: 0.2; transform: translateX(-50%) scale(0.15); }
+          33%        { opacity: 1;   transform: translateX(-50%) scale(1);    }
+          35%, 100%  { opacity: 0;   transform: translateX(-50%) scale(1.6);  }
         }
 
         /* Bones pop in after kill */
@@ -332,10 +151,26 @@ export default function ImposterKillScene({ sound = true }: ImposterKillScenePro
         }
 
         .au-flash {
-          position: absolute; inset: 0;
-          background: #fff;
+          position: absolute;
+          left: 50%;
+          /* Sits just above the ground — covers character bodies */
+          bottom: 20%;
+          transform: translateX(-50%) scale(0);
+          width: 210px;
+          height: 210px;
+          border-radius: 50%;
+          /* Warm explosion: white core → orange → red edge → transparent */
+          background: radial-gradient(
+            circle at center,
+            #ffffff          0%,
+            rgba(255,240,200,0.95) 18%,
+            rgba(255,170,70,0.65)  44%,
+            rgba(255,70,30,0.28)   66%,
+            transparent      82%
+          );
+          filter: blur(1.5px);
           pointer-events: none;
-          z-index: 4;
+          z-index: 10;
           animation: auFlash 9s ease-in-out infinite;
         }
 
