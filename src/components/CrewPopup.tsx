@@ -28,7 +28,7 @@ export default function CrewPopup() {
   // Auto-dismiss after 5 s
   useEffect(() => {
     if (!visible) return;
-    const t = setTimeout(() => setVisible(false), 5000);
+    const t = setTimeout(() => setVisible(false), 8000);
     return () => clearTimeout(t);
   }, [visible]);
 

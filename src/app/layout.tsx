@@ -6,6 +6,9 @@ import Terminal from "@/components/Terminal";
 import Navbar from "@/components/Navbar";
 import CursorSparkle from "@/components/CursorSparkle";
 import CrewPopup from "@/components/CrewPopup";
+import BootSequence from "@/components/BootSequence";
+import KonamiEgg from "@/components/KonamiEgg";
+import VentTransition from "@/components/VentTransition";
 
 
 export const metadata: Metadata = {
@@ -41,7 +44,9 @@ export default function RootLayout({
           <Terminal />
           <CursorSparkle />
           <CrewPopup />
-
+          <BootSequence />
+          <KonamiEgg />
+          <VentTransition />
         </TerminalProvider>
       </body>
     </html>

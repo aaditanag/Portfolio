@@ -362,12 +362,13 @@
   .header { padding: 2rem 1.5rem 1.5rem; }
   .factsGrid { grid-template-columns: 1fr; }
   .rewardSection { margin: 0 1rem 1.5rem; padding: 1.25rem; }
-  .modal { max-width: 100%; border-radius: var(--radius-lg); }
-  .modalOverlay { padding: 1rem; align-items: flex-end; }
+  .modal { max-width: 100%; border-radius: var(--radius-xl); }
+  .modalOverlay { padding: 1.25rem; align-items: center; justify-content: center; }
 }
 
 @media (max-width: 480px) {
   .progressBar { max-width: 100%; }
-  .modal { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .modal { border-radius: var(--radius-lg); }
+  .modalOverlay { padding: 1rem; align-items: center; justify-content: center; }
 }
 

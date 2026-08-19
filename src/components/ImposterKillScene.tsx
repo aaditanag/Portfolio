@@ -67,14 +67,109 @@ function useImposterSFX(enabled: boolean) {
       }
 
       function scheduleLoop() {
-        noiseBurst(1.8, 0.4, 0.04);
-        tone(200, 2.16, 0.3, 'sine', 0.06);
-        noiseBurst(2.61, 0.35, 0.05);
-        tone(140, 2.97, 0.25, 'square', 0.18);
-        tone(90, 2.99, 0.4, 'sawtooth', 0.12);
-        noiseBurst(6.3, 0.5, 0.06);
-        tone(600, 6.3, 0.5, 'sine', 0.05);
+        if (!ctx) return;
+        const t = ctx.currentTime;
+
+        // ── Impostor approach thud at 2.6s ──────────────────────────────────
+        {
+          const s = 2.6;
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(90, t + s);
+          osc.frequency.exponentialRampToValueAtTime(40, t + s + 0.14);
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.12, t + s);
+          g.gain.exponentialRampToValueAtTime(0.001, t + s + 0.14);
+          osc.connect(g); g.connect(ctx.destination);
+          osc.start(t + s); osc.stop(t + s + 0.18);
+        }
+
+        // ── KILL at 3.06s (= 34% of 9s — matches kill flash exactly) ────────
+        const ks = 3.06;
+
+        // Knife slash: very short high-pass noise burst — the sharp "schink"
+        {
+          const len = Math.floor(ctx.sampleRate * 0.028);
+          const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+          const d   = buf.getChannelData(0);
+          for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+          const src = ctx.createBufferSource();
+          src.buffer = buf;
+          const hp = ctx.createBiquadFilter();
+          hp.type = 'highpass';
+          hp.frequency.value = 2800;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.48, t + ks);
+          g.gain.exponentialRampToValueAtTime(0.001, t + ks + 0.028);
+          src.connect(hp); hp.connect(g); g.connect(ctx.destination);
+          src.start(t + ks);
+        }
+
+        // Kill thud: heavy low sine — the impact
+        {
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(180, t + ks + 0.005);
+          osc.frequency.exponentialRampToValueAtTime(38, t + ks + 0.2);
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.58, t + ks + 0.005);
+          g.gain.exponentialRampToValueAtTime(0.001, t + ks + 0.2);
+          osc.connect(g); g.connect(ctx.destination);
+          osc.start(t + ks + 0.005); osc.stop(t + ks + 0.25);
+        }
+
+        // Kill sting: quick descending sawtooth
+        {
+          const osc = ctx.createOscillator();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(380, t + ks + 0.01);
+          osc.frequency.exponentialRampToValueAtTime(70, t + ks + 0.11);
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.14, t + ks + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.001, t + ks + 0.11);
+          osc.connect(g); g.connect(ctx.destination);
+          osc.start(t + ks + 0.01); osc.stop(t + ks + 0.14);
+        }
+
+        // ── Ghost shimmer at 3.5s ──────────────────────────────────────────
+        {
+          const s = 3.5;
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(900, t + s);
+          osc.frequency.linearRampToValueAtTime(1300, t + s + 0.12);
+          osc.frequency.exponentialRampToValueAtTime(650, t + s + 0.38);
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, t + s);
+          g.gain.linearRampToValueAtTime(0.055, t + s + 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, t + s + 0.38);
+          osc.connect(g); g.connect(ctx.destination);
+          osc.start(t + s); osc.stop(t + s + 0.42);
+        }
+
+        // ── Vent suck at 6.4s ─────────────────────────────────────────────
+        {
+          const s = 6.4;
+          const len = Math.floor(ctx.sampleRate * 0.48);
+          const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+          const d   = buf.getChannelData(0);
+          for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+          const src = ctx.createBufferSource();
+          src.buffer = buf;
+          const bp = ctx.createBiquadFilter();
+          bp.type = 'bandpass';
+          bp.frequency.setValueAtTime(900, t + s);
+          bp.frequency.exponentialRampToValueAtTime(160, t + s + 0.48);
+          bp.Q.value = 2.2;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, t + s);
+          g.gain.linearRampToValueAtTime(0.22, t + s + 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, t + s + 0.48);
+          src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+          src.start(t + s);
+        }
       }
+
 
       scheduleLoop();
       interval = setInterval(scheduleLoop, LOOP_MS);

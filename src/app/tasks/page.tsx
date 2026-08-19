@@ -198,7 +198,7 @@ export default function TasksPage() {
               <p>Your clearance level is sufficient. Download the full mission report.</p>
               <a
                 id="resume-download"
-                href="/Resume_AaditaNag.docx.pdf"
+                href="/Resume_AaditaNag.pdf"
                 download="Resume_AaditaNag.pdf"
                 className="btn btn-teal"
               >

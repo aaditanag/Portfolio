@@ -17,7 +17,7 @@ export default function Navbar() {
   const { openTerminal } = useTerminal();
 
   return (
-    <nav className={styles.nav} role="navigation" aria-label="Main navigation">
+    <nav className={styles.nav} role="navigation" aria-label="Main navigation" style={{ viewTransitionName: 'site-header' } as React.CSSProperties}>
       <div className={styles.logo}>
         <span className={styles.logoIcon}>🫘</span>
         <span className={styles.logoText}>CREWMATE_AADITA</span>
