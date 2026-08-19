@@ -160,14 +160,54 @@
   50% { transform: translateY(-16px); }
 }
 
+/* ===== SCROLL INDICATOR ===== */
+.scrollIndicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: rgba(0, 200, 200, 0.7);
+  transition: color 0.2s ease;
+  user-select: none;
+  z-index: 5;
+}
+
+.scrollIndicator:hover {
+  color: var(--teal);
+}
+
+.scrollLabel {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  letter-spacing: 0.18em;
+  opacity: 0.75;
+}
+
+.scrollArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 200, 200, 0.3);
+  background: rgba(0, 200, 200, 0.06);
+  backdrop-filter: blur(4px);
+}
 
 /* ===== MAP SECTION ===== */
 .mapSection {
-  padding: 4rem 5vw 6rem;
+  padding: 3rem 5vw 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  scroll-margin-top: 60px;
 }
 
 .mapHeader {
@@ -194,32 +234,35 @@
 .mapContainer {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   border-radius: var(--radius-xl);
-  padding: 2rem;
-  background: rgba(10, 12, 22, 0.8);
-  border: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem;
+  background: rgba(5, 7, 16, 0.85);
+  border: 1px solid rgba(0, 200, 200, 0.12);
   box-shadow:
-    0 0 60px rgba(0,200,200,0.05),
-    inset 0 0 60px rgba(0,0,0,0.3);
+    0 0 80px rgba(0,200,200,0.06),
+    0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 0 60px rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
 }
 
+/* Tooltip */
 .tooltip {
   position: absolute;
   top: 1.5rem;
   right: 2rem;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.7rem 1rem;
   border-radius: var(--radius-md);
-  background: rgba(10, 12, 22, 0.95);
+  background: rgba(8, 10, 22, 0.97);
   border: 1px solid;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   pointer-events: none;
-  max-width: 220px;
+  max-width: 240px;
 }
 
 .tooltipEmoji { font-size: 1.5rem; }
@@ -237,29 +280,129 @@
   line-height: 1.4;
 }
 
-.mapSvg {
+/* No Tasks Banner */
+.noTaskBanner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.8rem;
+  border-radius: var(--radius-md);
+  background: rgba(8, 10, 22, 0.97);
+  border: 1px solid var(--red);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 40px rgba(232,40,74,0.3), 0 8px 32px rgba(0,0,0,0.6);
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--red);
+  letter-spacing: 0.12em;
+  pointer-events: none;
+  text-shadow: 0 0 10px rgba(232,40,74,0.5);
+}
+
+.noTaskIcon { font-size: 1.4rem; }
+
+/* Map image wrapper */
+.mapImageWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.mapImage {
   width: 100%;
   height: auto;
   display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
-.roomGroup {
-  outline: none;
-  transition: all 0.15s;
+/* Room hotspot buttons */
+.roomHotspot {
+  position: absolute;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+  min-height: unset;
+  min-width: unset;
 }
 
-.roomGroup:focus-visible rect:last-of-type {
-  stroke: #fff;
-  stroke-width: 0.6px;
+.roomHotspot:hover {
+  background: var(--room-glow);
+  border-color: var(--room-color);
+  box-shadow: 0 0 20px var(--room-glow), inset 0 0 16px var(--room-glow);
+}
+
+.roomHotspot:focus-visible {
+  outline: 2px solid var(--room-color);
+  outline-offset: 2px;
+}
+
+/* Room label (visible on hover) */
+.roomLabel {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.3rem, 0.9vw, 0.55rem);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  text-shadow: 0 0 10px currentColor, 0 2px 8px rgba(0,0,0,0.8);
+  white-space: nowrap;
+  pointer-events: none;
+  background: rgba(5, 7, 16, 0.75);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.roomHotspot:hover .roomLabel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Shake animation for "no task" rooms */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.roomHotspotShake {
+  animation: shake 0.4s ease;
 }
 
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
-    padding: 3rem 1.5rem;
+    padding: 3rem 1.5rem 2rem;
     min-height: auto;
     gap: 2rem;
+  }
+  /* Reset arrow to normal flow on mobile — no longer absolute */
+  .scrollIndicator {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin: 0 auto;
+    padding-bottom: 1.5rem;
   }
   .heroCtas { justify-content: center; }
   .stats { margin: 0 auto; }
@@ -276,15 +419,16 @@
     transform: translateX(50%);
     max-width: 90vw;
   }
-  .mapContainer { padding: 1rem; border-radius: var(--radius-lg); }
-  .mapSection { padding: 2.5rem 1rem 4rem; }
+  .mapContainer { padding: 0.75rem; border-radius: var(--radius-lg); }
+  .mapSection { padding: 2rem 1rem 4rem; }
   .stats { gap: 1rem; padding: 1rem; flex-wrap: wrap; justify-content: center; }
+  .roomLabel { font-size: 0.3rem; }
 }
 
 @media (max-width: 480px) {
   .hero { padding: 2rem 1rem; }
   .title { font-size: clamp(1.8rem, 8vw, 2.5rem); }
   .splineWrapper { height: 260px; }
-  .mapContainer { padding: 0.5rem; }
+  .mapContainer { padding: 0.4rem; }
+  .noTaskBanner { font-size: 0.45rem; padding: 0.8rem 1.2rem; }
 }
-

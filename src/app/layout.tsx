@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <div className="stars-bg" aria-hidden="true" />
         <div className="scanlines" aria-hidden="true" />
         <TerminalProvider>

@@ -1,82 +1,89 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTerminal } from '@/components/TerminalProvider';
-import CrewmateBean from '@/components/CrewmateBean';
+import ImposterKillScene from '@/components/ImposterKillScene';
 import styles from './page.module.css';
 
-
+// Room hotspots calibrated to the actual Skeld map image
 const ROOMS = [
   {
     id: 'cafeteria',
     label: 'CAFETERIA',
     emoji: '☕',
-    preview: 'About → Meet the crewmate',
+    preview: 'Meet the crewmate',
     route: '/about',
-    x: 38, y: 12, w: 24, h: 18,
+    top: '3%', left: '38%', width: '22%', height: '30%',
     color: '#f5c518',
-    glowColor: 'rgba(245,197,24,0.35)',
+    glowColor: 'rgba(245,197,24,0.3)',
+    noTask: false,
   },
   {
     id: 'admin',
     label: 'ADMIN',
     emoji: '📋',
-    preview: 'Projects → Case studies & demos',
+    preview: 'Projects & case studies',
     route: '/projects',
-    x: 66, y: 12, w: 18, h: 14,
+    top: '40%', left: '58%', width: '16%', height: '28%',
     color: '#00c8c8',
-    glowColor: 'rgba(0,200,200,0.35)',
-  },
-  {
-    id: 'electrical',
-    label: 'ELECTRICAL',
-    emoji: '⚡',
-    preview: 'Tasks → Mini-games unlock secrets',
-    route: '/tasks',
-    x: 70, y: 54, w: 20, h: 16,
-    color: '#f5c518',
-    glowColor: 'rgba(245,197,24,0.35)',
+    glowColor: 'rgba(0,200,200,0.3)',
+    noTask: false,
   },
   {
     id: 'medbay',
     label: 'MEDBAY',
     emoji: '🫀',
-    preview: 'About → Bio, skills, timeline',
+    preview: 'Bio, skills & timeline',
     route: '/about',
-    x: 8, y: 42, w: 20, h: 16,
+    top: '23%', left: '17%', width: '15%', height: '25%',
     color: '#e8284a',
-    glowColor: 'rgba(232,40,74,0.35)',
+    glowColor: 'rgba(232,40,74,0.3)',
+    noTask: false,
+  },
+  {
+    id: 'electrical',
+    label: 'ELECTRICAL',
+    emoji: '⚡',
+    preview: 'No tasks assigned here.',
+    route: null,
+    top: '44%', left: '18%', width: '16%', height: '26%',
+    color: '#f5c518',
+    glowColor: 'rgba(245,197,24,0.3)',
+    noTask: true,
   },
   {
     id: 'navigation',
     label: 'NAVIGATION',
     emoji: '📡',
-    preview: 'Contact → Get in touch',
+    preview: 'Get in touch',
     route: '/contact',
-    x: 38, y: 68, w: 24, h: 16,
+    top: '27%', left: '80%', width: '14%', height: '28%',
     color: '#00c8c8',
-    glowColor: 'rgba(0,200,200,0.35)',
+    glowColor: 'rgba(0,200,200,0.3)',
+    noTask: false,
   },
   {
     id: 'reactor',
     label: 'REACTOR',
     emoji: '☢️',
-    preview: 'Tasks → Danger zone. Complete tasks.',
-    route: '/tasks',
-    x: 8, y: 62, w: 18, h: 14,
-    color: '#e8284a',
-    glowColor: 'rgba(232,40,74,0.35)',
+    preview: 'No tasks assigned here.',
+    route: null,
+    top: '22%', left: '1%', width: '12%', height: '38%',
+    color: '#a78bfa',
+    glowColor: 'rgba(167,139,250,0.3)',
+    noTask: true,
   },
   {
     id: 'storage',
     label: 'STORAGE',
     emoji: '📦',
-    preview: 'Projects → All the goods are here',
+    preview: 'All the goods are here',
     route: '/projects',
-    x: 66, y: 30, w: 18, h: 14,
+    top: '55%', left: '37%', width: '18%', height: '35%',
     color: '#a78bfa',
-    glowColor: 'rgba(167,139,250,0.35)',
+    glowColor: 'rgba(167,139,250,0.3)',
+    noTask: false,
   },
 ];
 
@@ -84,7 +91,9 @@ export default function ArenaPage() {
   const router = useRouter();
   const { openTerminal } = useTerminal();
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null);
+  const [noTaskRoom, setNoTaskRoom] = useState<string | null>(null);
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch('/api/visitors')
@@ -93,12 +102,32 @@ export default function ArenaPage() {
       .catch(() => {/* silent */});
   }, []);
 
+  // Dismiss "no tasks" after 2.5s
+  useEffect(() => {
+    if (noTaskRoom) {
+      const t = setTimeout(() => setNoTaskRoom(null), 2500);
+      return () => clearTimeout(t);
+    }
+  }, [noTaskRoom]);
+
   const hovered = ROOMS.find(r => r.id === hoveredRoom);
+
+  const handleRoomClick = (room: typeof ROOMS[0]) => {
+    if (room.noTask) {
+      setNoTaskRoom(room.id);
+    } else if (room.route) {
+      router.push(room.route);
+    }
+  };
+
+  const scrollToMap = () => {
+    mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className={styles.page}>
       {/* Hero section */}
-      <section className={styles.hero}>
+      <section className={styles.hero} style={{ position: 'relative' }}>
         {/* Left: Text content */}
         <motion.div
           className={styles.heroText}
@@ -165,12 +194,32 @@ export default function ArenaPage() {
           transition={{ duration: 1, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
         >
           <div className={styles.splineGlow} />
-          <CrewmateBean color="teal" />
+          <ImposterKillScene />
+        </motion.div>
+
+        {/* Scroll indicator — anchored to bottom of hero, always visible */}
+        <motion.div
+          className={styles.scrollIndicator}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          onClick={scrollToMap}
+        >
+          <span className={styles.scrollLabel}>NAVIGATE THE SHIP</span>
+          <motion.div
+            className={styles.scrollArrow}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </motion.div>
         </motion.div>
       </section>
 
       {/* Arena Map */}
-      <section className={styles.mapSection}>
+      <section className={styles.mapSection} ref={mapRef}>
         <motion.div
           className={styles.mapHeader}
           initial={{ opacity: 0, y: 20 }}
@@ -184,12 +233,12 @@ export default function ArenaPage() {
 
         <motion.div
           className={styles.mapContainer}
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
         >
-          {/* Hover tooltip */}
+          {/* Tooltip on hover */}
           <AnimatePresence>
             {hovered && (
               <motion.div
@@ -212,105 +261,59 @@ export default function ArenaPage() {
             )}
           </AnimatePresence>
 
-          {/* SVG Ship Map */}
-          <svg
-            viewBox="0 0 100 90"
-            className={styles.mapSvg}
-            role="img"
-            aria-label="The Skeld ship map"
-          >
-            {/* Ship hull */}
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-              <pattern id="grid" width="5" height="5" patternUnits="userSpaceOnUse">
-                <path d="M 5 0 L 0 0 0 5" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.2"/>
-              </pattern>
-            </defs>
+          {/* No Tasks notification */}
+          <AnimatePresence>
+            {noTaskRoom && (
+              <motion.div
+                key={`notask-${noTaskRoom}`}
+                className={styles.noTaskBanner}
+                initial={{ opacity: 0, scale: 0.85, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.85, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span className={styles.noTaskIcon}>🚫</span>
+                <span>NO TASKS</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            {/* Background grid */}
-            <rect x="0" y="0" width="100" height="90" fill="url(#grid)" />
+          {/* Map image + hotspots */}
+          <div className={styles.mapImageWrapper}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/skeld-map.png"
+              alt="The Skeld spaceship map"
+              className={styles.mapImage}
+              draggable={false}
+            />
 
-            {/* Corridors */}
-            <rect x="30" y="22" width="38" height="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth="0.3" rx="1" />
-            <rect x="60" y="22" width="4" height="34" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth="0.3" rx="1" />
-            <rect x="26" y="50" width="38" height="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth="0.3" rx="1" />
-            <rect x="26" y="22" width="4" height="32" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth="0.3" rx="1" />
-
-            {/* Rooms */}
-            {ROOMS.map((room) => {
-              const isHov = hoveredRoom === room.id;
-              return (
-                <g
-                  key={room.id}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${room.label}: ${room.preview}`}
-                  className={styles.roomGroup}
-                  onClick={() => router.push(room.route)}
-                  onMouseEnter={() => setHoveredRoom(room.id)}
-                  onMouseLeave={() => setHoveredRoom(null)}
-                  onKeyDown={(e) => e.key === 'Enter' && router.push(room.route)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {/* Glow layer */}
-                  {isHov && (
-                    <rect
-                      x={room.x - 0.5} y={room.y - 0.5}
-                      width={room.w + 1} height={room.h + 1}
-                      rx="2"
-                      fill={room.glowColor}
-                      filter="url(#glow)"
-                    />
-                  )}
-                  {/* Room body */}
-                  <rect
-                    x={room.x} y={room.y}
-                    width={room.w} height={room.h}
-                    rx="1.5"
-                    fill={isHov ? `${room.color}18` : 'rgba(22,25,41,0.8)'}
-                    stroke={isHov ? room.color : 'rgba(255,255,255,0.12)'}
-                    strokeWidth={isHov ? '0.6' : '0.3'}
-                  />
-                  {/* Room label */}
-                  <text
-                    x={room.x + room.w / 2}
-                    y={room.y + room.h / 2 - 1.5}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill={isHov ? room.color : 'rgba(255,255,255,0.5)'}
-                    fontSize="2.2"
-                    fontFamily="'Press Start 2P', monospace"
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    {room.label}
-                  </text>
-                  {/* Emoji */}
-                  <text
-                    x={room.x + room.w / 2}
-                    y={room.y + room.h / 2 + 3}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fontSize="4"
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    {room.emoji}
-                  </text>
-                </g>
-              );
-            })}
-
-            {/* Crewmate dot on map */}
-            <circle cx="50" cy="46" r="1.5" fill="var(--teal)" filter="url(#glow)" opacity="0.9">
-              <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite" />
-            </circle>
-            <text x="50" y="49.5" textAnchor="middle" fontSize="1.5" fill="rgba(0,200,200,0.6)" fontFamily="'Press Start 2P', monospace">YOU</text>
-          </svg>
+            {/* Clickable room hotspots */}
+            {ROOMS.map((room) => (
+              <button
+                key={room.id}
+                className={`${styles.roomHotspot} ${noTaskRoom === room.id ? styles.roomHotspotShake : ''}`}
+                style={{
+                  top: room.top,
+                  left: room.left,
+                  width: room.width,
+                  height: room.height,
+                  '--room-glow': room.glowColor,
+                  '--room-color': room.color,
+                } as React.CSSProperties}
+                onClick={() => handleRoomClick(room)}
+                onMouseEnter={() => setHoveredRoom(room.id)}
+                onMouseLeave={() => setHoveredRoom(null)}
+                aria-label={`${room.label}: ${room.preview}`}
+                title={room.label}
+              >
+                {/* Label that appears on hover */}
+                <span className={styles.roomLabel} style={{ color: room.color }}>
+                  {room.label}
+                </span>
+              </button>
+            ))}
+          </div>
         </motion.div>
       </section>
     </div>
