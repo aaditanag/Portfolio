@@ -93,6 +93,30 @@
   box-shadow: 0 0 6px var(--teal-glow);
 }
 
+.minimalBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(120, 180, 120, 0.08);
+  border: 1px solid rgba(120, 200, 120, 0.25);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  color: #7dc87d;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.minimalBtn:hover {
+  background: rgba(120, 200, 120, 0.15);
+  box-shadow: 0 0 12px rgba(120, 200, 120, 0.2);
+  color: #a5d6a5;
+}
+
 .terminalBtn {
   flex-shrink: 0;
   display: flex;
@@ -127,4 +151,5 @@
   .logoText { display: none; }
   .termBtnLabel { display: none; }
   .nav { padding: 0 1rem; }
+  .minimalBtn .termBtnLabel { display: none; }
 }
