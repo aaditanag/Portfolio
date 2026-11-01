@@ -87,6 +87,36 @@
   font-size: 0.5rem !important;
 }
 
+.minimalPortfolioLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+  width: fit-content;
+  backdrop-filter: blur(6px);
+}
+
+.minimalPortfolioLink:hover {
+  border-color: var(--teal);
+  background: rgba(0, 200, 200, 0.1);
+  color: var(--teal);
+  transform: translateX(3px);
+}
+
+.minimalPortfolioIcon {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
 .stats {
   display: flex;
   align-items: center;
@@ -409,6 +439,7 @@
   .badge { margin: 0 auto; }
   .desc { margin: 0 auto; }
   .splineWrapper { height: 320px; }
+  .minimalPortfolioLink { align-self: center; }
 }
 
 @media (max-width: 768px) {

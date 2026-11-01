@@ -161,6 +161,16 @@ export default function ArenaPage() {
             </button>
           </div>
 
+          <a
+            href="https://visitaparkwithme.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.minimalPortfolioLink}
+          >
+            <span className={styles.minimalPortfolioIcon}>🫘</span>
+            see my minimal portfolio →
+          </a>
+
           <div className={styles.stats}>
             <div className={styles.stat}>
               <span className={styles.statNum} style={{ color: 'var(--teal)' }}>∞</span>

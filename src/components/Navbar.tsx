@@ -39,17 +39,6 @@ export default function Navbar() {
         ))}
       </ul>
 
-      <a
-        href="https://visitaparkwithme.vercel.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.minimalBtn}
-        aria-label="See my minimal portfolio"
-      >
-        <span>🌿</span>
-        <span className={styles.termBtnLabel}>MINIMAL PORTFOLIO</span>
-      </a>
-
       <button
         className={styles.terminalBtn}
         onClick={openTerminal}
